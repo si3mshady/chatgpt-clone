@@ -40,4 +40,31 @@
   flex: 1;
   /* border: 1px solid white; */
   background-color: #343541;
+  position: relative;
+}
+
+.chat-input-textarea {
+
+  width: 90%;
+ border: none;
+  border-radius: 5px;
+  margin: 12px;
+  outline: none;
+  padding: 12px;
+
+  
+  color: white;
+  background-color: #343541;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,0.5);
+  font-size: 1.25em;
+
+}
+
+.chat-input {
+  padding: 12px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
 }
