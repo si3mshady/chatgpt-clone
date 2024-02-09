@@ -72,9 +72,15 @@
 
 .chat-log {
   color: white;
-  /* padding: 24px; */
+  padding: 24px;
   text-align: left;
   /* display: flex; */
+
+}
+
+.chat-message {
+
+  padding-bottom: 20px;
 }
 
 
@@ -109,6 +115,7 @@
 .message {
   padding-left: 40px;
   padding-right: 40px;
+
 
 }
 
