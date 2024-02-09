@@ -1,0 +1,43 @@
+.App {
+  text-align: center;
+  background-color: black;
+  display: flex;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+
+.side-menu {
+  width: 260px;
+  /* border: 1px solid white; */
+  color: white;
+  padding: 10px;
+}
+
+.side-menu-button {
+  padding: 12px;
+  border: 1px solid white;
+  border-radius: 5px;
+  text-align: left;
+ transition: ease .25s all;
+}
+
+
+.side-menu-button:hover {
+  background-color: rgba(255,255,255,0.1)
+ 
+}
+
+.side-menu-button span {
+  padding-left: 5px;
+  padding-right: 15px;
+}
+
+.chatbox {
+  flex: 1;
+  /* border: 1px solid white; */
+  background-color: #343541;
+}
