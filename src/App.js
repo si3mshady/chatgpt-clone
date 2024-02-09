@@ -13,6 +13,17 @@ function App() {
      </aside>
      <section className='chatbox'>
 
+      <div className='chat-input' >
+
+      <textarea placeholder='Enter your prompt here'
+      rows={1}
+      className='chat-input-textarea'>
+
+      </textarea>
+
+
+      </div>
+
      </section>
     </div>
   );
