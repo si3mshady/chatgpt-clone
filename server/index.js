@@ -1,4 +1,3 @@
-// export OPENAI_API_KEY=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
 const express = require('express')
 const {OpenAI} = require("openai")
 
@@ -6,23 +5,31 @@ const {OpenAI} = require("openai")
 const app = express()
 port = 888
 
+const bodyParser = require('body-parser')
+const cors = require('cors')
+app.use(bodyParser.json())
+app.use(cors())
+
+
 const openai = new OpenAI({
   organization: 'org-8esesGeqUvDcfmR62Dco9Bx5',
 })
 
 
 app.post('/', async (req,res) => {
+    const {message} = req.body
+    console.log(message)
     const completion = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
-        prompt: "What is water.",
+        prompt: `${message}`,
         max_tokens: 99,
         temperature: 0,
       });
     
-      console.log(completion);
-      res.json({
-        data: completion.choices[0].text
-      })
+    
+    res.json({
+        message: completion.choices[0].text
+    })
 })
 
 
