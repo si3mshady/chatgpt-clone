@@ -23,7 +23,7 @@ const [log, setChatLog] = useState([])
 
 
     // fetch request from API combining the chatlog array of messages to localhost:888 as a post
-    const response = await fetch("http://localhost:888/", {
+    const response = await fetch("http://localhost:5000/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

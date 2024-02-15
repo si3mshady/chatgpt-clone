@@ -1,4 +1,5 @@
 from flask import Flask,request
+from flask_cors import CORS
 from flask_restful import reqparse, abort, Api, Resource
 from llama_index.core import SimpleDirectoryReader, StorageContext
 from llama_index.core import VectorStoreIndex
@@ -10,10 +11,13 @@ import openai
 import os 
 
 
+from openai import OpenAI
+client = OpenAI()
+
 app = Flask(__name__)
 api = Api(app)
-
-openai.api_key = os.environ["OPENAI_API_KEY"]
+CORS(app)
+# openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
 # documents = SimpleDirectoryReader("./superbowldata").load_data()
@@ -67,6 +71,7 @@ class VectorSearch(Resource):
         data = request.get_json()
         # response = query_engine.query("Who won the super bowl")
         print(data)
+        return data 
 
 
 
