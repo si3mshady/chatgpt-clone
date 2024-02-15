@@ -7,6 +7,7 @@ from llama_index.vector_stores.postgres import PGVectorStore
 from sqlalchemy import make_url
 import psycopg2
 import textwrap
+import json 
 import openai
 import os 
 
@@ -42,13 +43,31 @@ def inint_connection():
 ########
 
 
+def get_oai_response(context, message):
+    res = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            response_format={ "type": "json_object" },
+            messages=[
+                {"role": "assistant", "content": context},
+                {"role": "user", "content": message}
+            ]
+
+
+            )
+    print(res)
+    return res.choices[0].message.content
+
+
 
 
 
 class VectorSearch(Resource):
-    connection_string, documents, db_name = inint_connection()
-    url = make_url(connection_string)
-    vector_store = PGVectorStore.from_params(
+    
+
+    def post(self):
+        connection_string, documents, db_name = inint_connection()
+        url = make_url(connection_string)
+        vector_store = PGVectorStore.from_params(
         database=db_name,
         host=url.host,
         password=url.password,
@@ -58,21 +77,29 @@ class VectorSearch(Resource):
         embed_dim=1536,  # openai embedding dimension
     )
 
-    storage_context = StorageContext.from_defaults(vector_store=vector_store)
-    index = VectorStoreIndex.from_documents(
+        storage_context = StorageContext.from_defaults(vector_store=vector_store)
+        index = VectorStoreIndex.from_documents(
         documents, storage_context=storage_context, show_progress=True
     )
-    query_engine = index.as_query_engine()
+        query_engine = index.as_query_engine()
 
-    # response = query_engine.query("Who won the super bowl")
-    # print(response)
-
-
-    def post(self):
-        data = request.get_json()
         # response = query_engine.query("Who won the super bowl")
-        print(data)
-        return data 
+        # print(response)
+
+        data = request.get_json()
+        message = data['message']
+
+        engine_response = query_engine.query(message)
+        # print(engine_response)
+
+        
+
+
+        return {
+                "message": get_oai_response(engine_response,message)
+            } 
+
+            # res.choices[0].text)
 
 
 
