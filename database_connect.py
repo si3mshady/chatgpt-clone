@@ -19,52 +19,53 @@ api = Api(app)
 CORS(app)
 # openai.api_key = os.environ["OPENAI_API_KEY"]
 
+def inint_connection():
+    documents = SimpleDirectoryReader("./superbowldata").load_data()
+    print("Document ID:", documents[0].doc_id)
 
-# documents = SimpleDirectoryReader("./superbowldata").load_data()
-# print("Document ID:", documents[0].doc_id)
+    connection_string = "postgresql://postgres:test@localhost:5432"
 
-# connection_string = "postgresql://postgres:test@localhost:5432"
+    db_name = "vector_db2"
+    conn = psycopg2.connect(connection_string)
+    conn.autocommit = True
 
-# db_name = "vector_db2"
-# conn = psycopg2.connect(connection_string)
-# conn.autocommit = True
+    with conn.cursor() as c:
+        print('connected to database')
+        c.execute(f"DROP DATABASE IF EXISTS {db_name}")
+        c.execute(f"CREATE DATABASE {db_name}")
+        print('new database created')
 
-# with conn.cursor() as c:
-#     print('connected to database')
-#     c.execute(f"DROP DATABASE IF EXISTS {db_name}")
-#     c.execute(f"CREATE DATABASE {db_name}")
-#     print('new database created')
-
-
-
-# ########
+    return connection_string, documents, db_name
 
 
 
-# url = make_url(connection_string)
-# vector_store = PGVectorStore.from_params(
-#     database=db_name,
-#     host=url.host,
-#     password=url.password,
-#     port=url.port,
-#     user=url.username,
-#     table_name="superbowldata",
-#     embed_dim=1536,  # openai embedding dimension
-# )
+########
 
-# storage_context = StorageContext.from_defaults(vector_store=vector_store)
-# index = VectorStoreIndex.from_documents(
-#     documents, storage_context=storage_context, show_progress=True
-# )
-# query_engine = index.as_query_engine()
 
-# response = query_engine.query("Who won the super bowl")
-# print(response)
 
 
 
 class VectorSearch(Resource):
+    connection_string, documents, db_name = inint_connection()
+    url = make_url(connection_string)
+    vector_store = PGVectorStore.from_params(
+        database=db_name,
+        host=url.host,
+        password=url.password,
+        port=url.port,
+        user=url.username,
+        table_name="superbowldata",
+        embed_dim=1536,  # openai embedding dimension
+    )
 
+    storage_context = StorageContext.from_defaults(vector_store=vector_store)
+    index = VectorStoreIndex.from_documents(
+        documents, storage_context=storage_context, show_progress=True
+    )
+    query_engine = index.as_query_engine()
+
+    # response = query_engine.query("Who won the super bowl")
+    # print(response)
 
 
     def post(self):
@@ -83,7 +84,7 @@ api.add_resource(VectorSearch, '/')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 
 
 
