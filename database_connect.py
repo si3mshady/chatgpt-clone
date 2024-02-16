@@ -22,7 +22,7 @@ CORS(app)
 # openai.api_key = os.environ["OPENAI_API_KEY"]
 
 def inint_connection():
-    documents = SimpleDirectoryReader("./superbowldata").load_data()
+    documents = SimpleDirectoryReader("./domain").load_data()
     print("Document ID:", documents[0].doc_id)
 
     connection_string = "postgresql://postgres:test@localhost:5432"
