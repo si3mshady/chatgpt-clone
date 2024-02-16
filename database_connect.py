@@ -1,4 +1,5 @@
 from flask import Flask,request
+from flask import jsonify
 from flask_cors import CORS
 from flask_restful import reqparse, abort, Api, Resource
 from llama_index.core import SimpleDirectoryReader, StorageContext
@@ -16,7 +17,7 @@ from openai import OpenAI
 client = OpenAI()
 
 app = Flask(__name__)
-api = Api(app)
+# api = Api(app)
 CORS(app)
 # openai.api_key = os.environ["OPENAI_API_KEY"]
 
@@ -39,35 +40,9 @@ def inint_connection():
     return connection_string, documents, db_name
 
 
-
-########
-
-
-def get_oai_response(context, message):
-    res = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            response_format={ "type": "json_object" },
-            messages=[
-                {"role": "assistant", "content": context},
-                {"role": "user", "content": message}
-            ]
-
-
-            )
-    print(res)
-    return res.choices[0].message.content
-
-
-
-
-
-class VectorSearch(Resource):
-    
-
-    def post(self):
-        connection_string, documents, db_name = inint_connection()
-        url = make_url(connection_string)
-        vector_store = PGVectorStore.from_params(
+connection_string, documents, db_name = inint_connection()
+url = make_url(connection_string)
+vector_store = PGVectorStore.from_params(
         database=db_name,
         host=url.host,
         password=url.password,
@@ -76,39 +51,50 @@ class VectorSearch(Resource):
         table_name="superbowldata",
         embed_dim=1536,  # openai embedding dimension
     )
+storage_context = StorageContext.from_defaults(vector_store=vector_store)
+index = VectorStoreIndex.from_documents(  documents, storage_context=storage_context, show_progress=True )
 
-        storage_context = StorageContext.from_defaults(vector_store=vector_store)
-        index = VectorStoreIndex.from_documents(
-        documents, storage_context=storage_context, show_progress=True
-    )
+########
+
+
+def get_oai_response(message):
+    res = client.chat.completions.create(
+            model="gpt-3.5-turbo-0125",
+            messages=[
+                {"role": "user", "content": message}
+            ]
+
+
+            )
+
+    return jsonify({"message": res.choices[0].message.content})
+    
+
+
+
+
+@app.route('/', methods=['POST'])
+def submit_data():
+    if request.method == 'POST':
+        # Access the data from the POST request
+        data = request.json  # Assuming the data is in JSON format
+            
+
         query_engine = index.as_query_engine()
 
-        # response = query_engine.query("Who won the super bowl")
-        # print(response)
 
-        data = request.get_json()
         message = data['message']
 
         engine_response = query_engine.query(message)
-        # print(engine_response)
 
-        
+        print('This is the rag response -> ',engine_response)
 
+        if "I'm sorry" not in str(engine_response):
 
-        return {
-                "message": get_oai_response(engine_response,message)
-            } 
-
-            # res.choices[0].text)
-
-
-
-
-##
-## Actually setup the Api resource routing here
-##
-api.add_resource(VectorSearch, '/')
-
+            q = f"answer this question {message} using the following context {engine_response}"
+            return get_oai_response(q)
+        else:
+            return(get_oai_response(message))
 
 if __name__ == '__main__':
     app.run()
