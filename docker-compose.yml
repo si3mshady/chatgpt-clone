@@ -1,4 +1,4 @@
- version: '3.8'
+version: '3.8'
 services:
   pgvector:
     image: pgvector/pgvector:pg16
@@ -9,10 +9,12 @@ services:
       - "5432:5432"
     volumes:
       - pgvector_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
 
   keycloak:
-    image: quay.io/keycloak/keycloak:23.0.6
-    container_name: kc
+    image: quay.io/keycloak/keycloak:13.0.1
+    container_name: keycloak
     ports:
       - "8080:8080"
     environment:
@@ -21,7 +23,13 @@ services:
     command: start-dev
     volumes:
       - keycloak_data:/opt/jboss/keycloak/standalone/data
+    networks:
+      - mynetwork
 
 volumes:
   pgvector_data:
   keycloak_data:
+
+networks:
+  mynetwork:
+    driver: bridge
