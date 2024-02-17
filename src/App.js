@@ -3,12 +3,14 @@ import Keycloack from 'keycloak-js'
 
 import { useState } from 'react';
 
-let initOptions = {
+const SERVER = process.env.REACT_APP_SERVER
 
-  url: "http://localhost:8080/",
-  realm: "RAG ",
-  clientId: "rag-client"
-}
+
+let initOptions = {
+  url: process.env.REACT_APP_API_URL,
+  realm: process.env.REACT_APP_REALM,
+  clientId: process.env.REACT_APP_CLIENT_ID
+};
 
 let kc = new Keycloack(initOptions)
 
@@ -52,7 +54,7 @@ const [log, setChatLog] = useState([])
 
 
     // fetch request from API combining the chatlog array of messages to localhost:888 as a post
-    const response = await fetch("http://localhost:5000/", {
+    const response = await fetch(`http://${SERVER}:5000/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

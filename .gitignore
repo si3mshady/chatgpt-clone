@@ -1,5 +1,6 @@
 node_modules
 venv
+Dockerfile.python
 
 
 server/node_modules

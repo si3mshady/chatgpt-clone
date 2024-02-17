@@ -21,13 +21,18 @@ app = Flask(__name__)
 CORS(app)
 # openai.api_key = os.environ["OPENAI_API_KEY"]
 
+DATABASE_NAME = os.environ["DATABASE_NAME"]
+DATABASE_PASSWORD = os.environ["DATABASE_PASSWORD"]
+DB_CONTAINER_NAME = os.environ["DB_CONTAINER_NAME"]
+DB_TABLE_NAME = os.environ["DB_TABLE_NAME"]
+
 def inint_connection():
     documents = SimpleDirectoryReader("./domain").load_data()
     print("Document ID:", documents[0].doc_id)
 
-    connection_string = "postgresql://postgres:test@localhost:5432"
+    connection_string = f"postgresql://postgres:{DATABASE_PASSWORD}@{DB_CONTAINER_NAME}:5432"
 
-    db_name = "vector_db2"
+    db_name = DATABASE_NAME
     conn = psycopg2.connect(connection_string)
     conn.autocommit = True
 
@@ -48,7 +53,7 @@ vector_store = PGVectorStore.from_params(
         password=url.password,
         port=url.port,
         user=url.username,
-        table_name="superbowldata",
+        table_name=DB_TABLE_NAME,
         embed_dim=1536,  # openai embedding dimension
     )
 storage_context = StorageContext.from_defaults(vector_store=vector_store)
