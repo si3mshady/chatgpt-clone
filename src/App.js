@@ -1,6 +1,35 @@
 import './App.css';
+import Keycloack from 'keycloak-js'
 
 import { useState } from 'react';
+
+let initOptions = {
+
+  url: "http://localhost:8080/",
+  realm: "RAG ",
+  clientId: "rag-client"
+}
+
+let kc = new Keycloack(initOptions)
+
+kc.init({
+  onLoad: "login-required",
+  checkLoginIframe: false,
+  pkceMethod: 'S256'
+
+}). then ((auth) => {  
+
+  if (!auth) {
+    window.location.reload()
+
+  } else {
+    console.log('Authenticated')
+    console.log('Auth', auth)
+    console.log('Keycloak', kc)
+    console.log("AccessToken", kc.token)
+  }
+})
+
 
 function App() {
 

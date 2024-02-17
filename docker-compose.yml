@@ -1,2 +1,27 @@
-docker run --name pgvector -e POSTGRES_PASSWORD=test \
--p 5432:5432 -d  pgvector/pgvector:pg16
+version: '3.8'
+services:
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: pgvector
+    environment:
+      - POSTGRES_PASSWORD=test
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.6
+    container_name: kc
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: start-dev
+    volumes:
+      - keycloak_data:/opt/jboss/keycloak/standalone/data
+
+volumes:
+  pgvector_data:
+  keycloak_data:
