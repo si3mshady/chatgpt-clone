@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 const SERVER = process.env.REACT_APP_SERVER
 
-
 let initOptions = {
   url: process.env.REACT_APP_API_URL,
   realm: process.env.REACT_APP_REALM,
