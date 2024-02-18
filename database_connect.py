@@ -25,6 +25,7 @@ DATABASE_NAME = os.environ["DATABASE_NAME"]
 DATABASE_PASSWORD = os.environ["DATABASE_PASSWORD"]
 DB_CONTAINER_NAME = os.environ["DB_CONTAINER_NAME"]
 DB_TABLE_NAME = os.environ["DB_TABLE_NAME"]
+PORT = os.environ["PORT"]
 
 def inint_connection():
     documents = SimpleDirectoryReader("./domain").load_data()
@@ -102,7 +103,7 @@ def submit_data():
             return(get_oai_response(message))
 
 if __name__ == '__main__':
-    app.run()
+     app.run(host='0.0.0.0', port=PORT)
 
 
 

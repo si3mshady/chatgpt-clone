@@ -1,7 +1,40 @@
 version: '3.8'
 services:
+
+  gptclone:
+    image: si3mshady/rag-fe
+    depends_on:
+      - pgvector
+      # - keycloak
+    container_name: gptclone
+    environment: 
+      - REACT_APP_API_URL=http://localhost:8080/
+      - REACT_APP_REALM=RAG
+      - REACT_APP_CLIENT_ID=rag-client
+      - REACT_APP_SERVER=localhost
+    ports: 
+      - "3000:3000"
+
+  dbconnect:
+    image: si3mshady/rag-server-be
+    depends_on:
+      - pgvector
+      # - keycloak
+    container_name: rag-server-be    
+    environment:
+      - OPENAI_API_KEY=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
+      - DATABASE_NAME=rag
+      - DATABASE_PASSWORD=test
+      - DB_CONTAINER_NAME=pgvector
+      - DB_TABLE_NAME=rag-table
+    ports: 
+      - '5000:5000'
+    # networks: 
+    #   - mynetwork
+
   pgvector:
     image: pgvector/pgvector:pg16
+  
     container_name: pgvector
     environment:
       - POSTGRES_PASSWORD=test
@@ -9,27 +42,12 @@ services:
       - "5432:5432"
     volumes:
       - pgvector_data:/var/lib/postgresql/data
-    networks:
-      - mynetwork
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:13.0.1
-    container_name: keycloak
-    ports:
-      - "8080:8080"
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-    command: start-dev
-    volumes:
-      - keycloak_data:/opt/jboss/keycloak/standalone/data
-    networks:
-      - mynetwork
+ 
 
 volumes:
   pgvector_data:
-  keycloak_data:
+  # keycloak_data:
 
-networks:
-  mynetwork:
-    driver: bridge
+# networks:
+#   mynetwork:
+#     driver: bridge

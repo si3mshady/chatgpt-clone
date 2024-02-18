@@ -1,6 +1,7 @@
 flask
 flask-cors
 flask-restful
+llama-index-vector-stores-postgres
 llama-index
 psycopg2
 openai
