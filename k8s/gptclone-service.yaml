@@ -8,9 +8,24 @@ metadata:
     io.kompose.service: gptclone
   name: gptclone
 spec:
+  type: LoadBalancer  # Change service type to LoadBalancer
   ports:
     - name: "3000"
-      port: 3000
+      port: 80
       targetPort: 3000
   selector:
     io.kompose.service: gptclone
+
+---
+# apiVersion: v1
+
+# kind: Service
+# metadata:
+#   name: pgvector-service
+# spec:
+#   selector:
+#     io.kompose.service: pgvector
+#   ports:
+#     - protocol: TCP
+#       port: 5000
+#       targetPort: 5000

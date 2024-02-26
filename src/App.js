@@ -4,32 +4,34 @@ import Keycloack from 'keycloak-js'
 import { useState } from 'react';
 
 const SERVER = process.env.REACT_APP_SERVER
+const PORT = process.env.REACT_APP_PORT
 
-let initOptions = {
-  url: process.env.REACT_APP_API_URL,
-  realm: process.env.REACT_APP_REALM,
-  clientId: process.env.REACT_APP_CLIENT_ID
-};
 
-let kc = new Keycloack(initOptions)
+// let initOptions = {
+// //   url: process.env.REACT_APP_API_URL,
+// //   realm: process.env.REACT_APP_REALM,
+// //   clientId: process.env.REACT_APP_CLIENT_ID
+// };
 
-kc.init({
-  onLoad: "login-required",
-  checkLoginIframe: false,
-  pkceMethod: 'S256'
+// let kc = new Keycloack(initOptions)
 
-}). then ((auth) => {  
+// kc.init({
+//   onLoad: "login-required",
+//   checkLoginIframe: false,
+//   pkceMethod: 'S256'
 
-  if (!auth) {
-    window.location.reload()
+// }). then ((auth) => {  
 
-  } else {
-    console.log('Authenticated')
-    console.log('Auth', auth)
-    console.log('Keycloak', kc)
-    console.log("AccessToken", kc.token)
-  }
-})
+//   if (!auth) {
+//     window.location.reload()
+
+//   } else {
+//     console.log('Authenticated')
+//     console.log('Auth', auth)
+//     console.log('Keycloak', kc)
+//     console.log("AccessToken", kc.token)
+//   }
+// })
 
 
 function App() {
@@ -53,7 +55,7 @@ const [log, setChatLog] = useState([])
 
 
     // fetch request from API combining the chatlog array of messages to localhost:888 as a post
-    const response = await fetch(`http://${SERVER}:5000/`, {
+    const response = await fetch(`http://${SERVER}:${PORT}/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

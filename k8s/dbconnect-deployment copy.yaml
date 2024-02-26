@@ -27,9 +27,10 @@ spec:
             - name: DB_TABLE_NAME
               value: rag-table
             - name: OPENAI_API_KEY
-              value: sk-
+              value: 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
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -41,5 +42,4 @@ spec:
     - protocol: TCP
       port: 5000
       targetPort: 5000
-      # nodePort: 30000   # Define a specific NodePort (e.g., 30000)
-  type: LoadBalancer        # Change the Service type to NodePort
+  type: ClusterIP

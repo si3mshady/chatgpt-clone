@@ -20,10 +20,13 @@ RUN npm run build
 EXPOSE 3000
 
 # Set the environment variables
-ENV REACT_APP_API_URL=http://keycloak:8080/
+ENV REACT_APP_API_URL=http://local:8080/
 ENV REACT_APP_REALM=RAG
 ENV REACT_APP_CLIENT_ID=rag-client
 ENV REACT_APP_SERVER=rag-server-be
+ENV REACT_APP_PORT=30000
 
 # Start the React app when the container launches
 CMD ["npm", "start"]
+
+# si3mshady/basic_rag:1

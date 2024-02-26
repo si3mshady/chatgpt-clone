@@ -14,4 +14,5 @@
   501  history | grep gcloud
   502  history | grep gcloud > gcloud_commands_setting_up_k8s.txt
 
-gcloud compute firewall-rules create allow-all --network=default --action=allow --direction=ingress --rules=tcp:80,tcp:443 --source-ranges=0.0.0.0/0 --target-tags=sandbox-public
+gcloud compute firewall-rules create allow-all --network=default --action=allow --direction=ingress --rules=all --source-ranges=0.0.0.0/0 --target-tags=sandbox-public
+gcloud compute firewall-rules create allow-all --network=default --action=allow --direction=ingress --rules=tcp:80,tcp:443,tcp:5000,tcp:3000 --source-ranges=0.0.0.0/0 --target-tags=sandbox-public

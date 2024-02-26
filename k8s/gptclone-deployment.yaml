@@ -1,12 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-compose.yml
-    kompose.version: 1.32.0 (765fde254)
-  labels:
-    io.kompose.service: gptclone
-  name: gptclone
+  name: gptclone-deployment
 spec:
   replicas: 1
   selector:
@@ -14,27 +9,35 @@ spec:
       io.kompose.service: gptclone
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f docker-compose.yml
-        kompose.version: 1.32.0 (765fde254)
       labels:
-        io.kompose.network/chatgpt-clone-default: "true"
         io.kompose.service: gptclone
     spec:
       containers:
-        - env:
-            - name: REACT_APP_API_URL
-              value: http://localhost:8080/
-            - name: REACT_APP_CLIENT_ID
-              value: rag-client
-            - name: REACT_APP_REALM
-              value: RAG
-            - name: REACT_APP_SERVER
-              value: localhost
-          image: si3mshady/rag-fe
-          name: gptclone
+        - name: gptclone
+          image: si3mshady/basic_rag:2
           ports:
             - containerPort: 3000
-              hostPort: 3000
-              protocol: TCP
-      restartPolicy: Always
+          env:
+            - name: REACT_APP_API_URL
+              value: "pgvector"
+            - name: REACT_APP_CLIENT_ID
+              value: "rag-client"
+            - name: REACT_APP_REALM
+              value: "RAG"
+            - name: REACT_APP_SERVER
+              value: "34.168.177.59" 
+            - name: REACT_APP_PORT   # Corrected the environment variable definition
+              value: "5000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gptclone-service
+spec:
+  selector:
+    io.kompose.service: gptclone
+  ports:
+    - protocol: TCP
+      port: 80   # Exposed port on the Service should match the external port (e.g., 80 for HTTP)
+      targetPort: 3000
+  type: LoadBalancer
