@@ -1,0 +1,17 @@
+  176  gcloud auth application-default login
+  182  gcloud config set project $PROJECT_ID
+  184  gcloud artifacts repositories create public-sandbox --repository-format=docker --location=us-central1
+  189  gcloud artifacts repositories add-iam-policy-binding public-sandbox --location=LOCATION --member=user:el.cloud.science.lab@gmail.com --role=roles/owner
+  190  gcloud artifacts repositories add-iam-policy-binding public-sandbox --location=us-central1 --member=user:el.cloud.science.lab@gmail.com --role=roles/owner
+  191  gcloud auth configure-docker us-central1-docker.pkg.dev
+  195  gcloud config set compute/region us-central1
+  196  gcloud container clusters create-auto sandbox-multitenant
+  197  gcloud containers clusters get-credentials sandbox-multitenant --region us-central1
+  198  gcloud containers get-credentials sandbox-multitenant --region us-central1
+  199  gcloud container clusters get-credentials sandbox-multitenant --region us-central1
+  200  gcloud components install gke-gcloud-auth-plugin
+  232  gcloud compute firewall-rules create allow-all --network=default --action=allow --direction=ingress --source-ranges=0.0.0.0/0 --target-tags=sandbox-public
+  501  history | grep gcloud
+  502  history | grep gcloud > gcloud_commands_setting_up_k8s.txt
+
+gcloud compute firewall-rules create allow-all --network=default --action=allow --direction=ingress --rules=tcp:80,tcp:443 --source-ranges=0.0.0.0/0 --target-tags=sandbox-public

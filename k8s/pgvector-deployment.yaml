@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: pgvector
+  name: pgvector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: pgvector
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/chatgpt-clone-default: "true"
+        io.kompose.service: pgvector
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: test
+          image: pgvector/pgvector:pg16
+          name: pgvector
+          ports:
+            - containerPort: 5432
+              hostPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: pgvector-data
+      restartPolicy: Always
+      volumes:
+        - name: pgvector-data
+          persistentVolumeClaim:
+            claimName: pgvector-data

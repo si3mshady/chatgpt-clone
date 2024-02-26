@@ -25,7 +25,7 @@ resource "google_compute_subnetwork" "my_subnet" {
   ip_cidr_range = "10.0.1.0/24"
   network       = google_compute_network.my_vpc.self_link
   project = "multi-tenant-414510"
-  region           = "us-central1"
+  region           = "us-west1"
 
 }
 
@@ -33,7 +33,7 @@ resource "google_compute_subnetwork" "my_subnet" {
 resource "google_sql_database_instance" "postgres_public_ip_instance_name" {
   database_version = "POSTGRES_15"
   name             = "postgres-public-ip"
-  region           = "us-central1"
+  region           = "us-west1"
   project = "multi-tenant-414510"
 
   settings {
@@ -60,8 +60,9 @@ resource "google_sql_database_instance" "postgres_public_ip_instance_name" {
 resource "google_sql_user" "my_db_user" {
   instance     = google_sql_database_instance.postgres_public_ip_instance_name.name
   name         = "postgres"
-  password     = "letgetiton"
+  password     = "letsgetiton"
   project = "multi-tenant-414510"
+  
 
 }
 

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: gptclone
+  name: gptclone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: gptclone
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/chatgpt-clone-default: "true"
+        io.kompose.service: gptclone
+    spec:
+      containers:
+        - env:
+            - name: REACT_APP_API_URL
+              value: http://localhost:8080/
+            - name: REACT_APP_CLIENT_ID
+              value: rag-client
+            - name: REACT_APP_REALM
+              value: RAG
+            - name: REACT_APP_SERVER
+              value: localhost
+          image: si3mshady/rag-fe
+          name: gptclone
+          ports:
+            - containerPort: 3000
+              hostPort: 3000
+              protocol: TCP
+      restartPolicy: Always

@@ -19,19 +19,19 @@ client = OpenAI()
 app = Flask(__name__)
 # api = Api(app)
 CORS(app)
-# openai.api_key = os.environ["OPENAI_API_KEY"]
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
-# DATABASE_NAME = os.environ["DATABASE_NAME"]
-DATABASE_NAME = "sandbox"
-# DATABASE_PASSWORD = os.environ["DATABASE_PASSWORD"]
-DATABASE_PASSWORD = "letgetiton"
-DB_DNS_IP = '34.28.135.214'
-# DB_CONTAINER_NAME = os.environ["DB_CONTAINER_NAME"]
+DATABASE_NAME = os.environ["DATABASE_NAME"]
+# DATABASE_NAME = "sandbox"
+DATABASE_PASSWORD = os.environ["DATABASE_PASSWORD"]
+# DATABASE_PASSWORD = "letsgetiton"
+# DB_DNS_IP = '34.145.25.147'
+DB_CONTAINER_NAME = os.environ["DB_CONTAINER_NAME"]
 
-# DB_TABLE_NAME = os.environ["DB_TABLE_NAME"]
-DB_TABLE_NAME = "sandbox"
-# PORT = os.environ["PORT"]
-PORT = 8080
+DB_TABLE_NAME = os.environ["DB_TABLE_NAME"]
+# DB_TABLE_NAME = "sandbox"
+PORT = os.environ["PORT"]
+# PORT = 8080
 
 
 
@@ -40,8 +40,8 @@ def inint_connection():
     documents = SimpleDirectoryReader("./domain").load_data()
     print("Document ID:", documents[0].doc_id)
 
-    # connection_string = f"postgresql://postgres:{DATABASE_PASSWORD}@{DB_CONTAINER_NAME}:5432"
-    connection_string = f"postgresql://postgres:{DATABASE_PASSWORD}@{DB_DNS_IP}:5432"
+    connection_string = f"postgresql://postgres:{DATABASE_PASSWORD}@{DB_CONTAINER_NAME}:5432"
+    # connection_string = f"postgresql://postgres:{DATABASE_PASSWORD}@{DB_DNS_IP}:5432"
 
     db_name = DATABASE_NAME
     conn = psycopg2.connect(connection_string)

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: dbconnect
+  name: dbconnect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: dbconnect
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/chatgpt-clone-default: "true"
+        io.kompose.service: dbconnect
+    spec:
+      containers:
+        - env:
+            - name: DATABASE_NAME
+              value: rag
+            - name: DATABASE_PASSWORD
+              value: test
+            - name: DB_CONTAINER_NAME
+              value: pgvector
+            - name: DB_TABLE_NAME
+              value: rag-table
+            - name: OPENAI_API_KEY
+              value: sk-7JhICXTXagXyz
+          image: si3mshady/rag-server-be
+          name: rag-server-be
+          ports:
+            - containerPort: 5000
+              hostPort: 5000
+              protocol: TCP
+      restartPolicy: Always
