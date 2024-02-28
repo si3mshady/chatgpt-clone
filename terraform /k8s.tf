@@ -1,19 +1,38 @@
-# Execute Terraform Script
+# gcloud container clusters get-credentials app-factory --region=us-west1
+# gcloud container clusters delete app-factory --region=us-west1
+
+
 provider "google" {
-  credentials = file("serviceaccount.json")
+
+    project = "multi-tenant-414510"
+    region = "us-west1"
+    credentials = file("creds.json")
+    
+  
 }
 
-terraform {
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 3.5"
+resource "google_container_cluster" "primary" {
+  name               = "app-factory"
+  location           = "us-west1"
+  initial_node_count = 1
+  node_config {
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    service_account = "kratos@multi-tenant-414510.iam.gserviceaccount.com"
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+    labels = {
+        Name = "appfactory"
     }
+  }
+  timeouts {
+    create = "30m"
+    update = "40m"
   }
 }
 
 
-# Define the VPC
+# # VPC
 resource "google_compute_network" "my_vpc" {
   name = "sandbox"
   project = "multi-tenant-414510"
@@ -32,7 +51,7 @@ resource "google_compute_subnetwork" "my_subnet" {
 # Deploy PostgreSQL Database
 resource "google_sql_database_instance" "postgres_public_ip_instance_name" {
   database_version = "POSTGRES_15"
-  name             = "postgres-public-ip"
+  name             = "postgres-rag"
   region           = "us-west1"
   project = "multi-tenant-414510"
 
@@ -57,7 +76,7 @@ resource "google_sql_database_instance" "postgres_public_ip_instance_name" {
 }
 
 # Configure Connectivity
-resource "google_sql_user" "my_db_user" {
+resource "google_sql_user" "my_second_db_user" {
   instance     = google_sql_database_instance.postgres_public_ip_instance_name.name
   name         = "postgres"
   password     = "letsgetiton"
@@ -66,18 +85,18 @@ resource "google_sql_user" "my_db_user" {
 
 }
 
-output "cloud_sql_connection_name" {
+output "cloud_sql_connection_name_" {
   value = google_sql_database_instance.postgres_public_ip_instance_name.connection_name
 }
 
 
-output "cloud_sql_ip_address" {
+output "cloud_sql_ip_address_" {
   value = google_sql_database_instance.postgres_public_ip_instance_name.ip_address.0.ip_address
 }
 
 
 
-#enableCloudSQLAdminAPI
+# #enableCloudSQLAdminAPI
 
-# terraform init
-# terraform apply
+# # terraform init
+# # terraform apply
