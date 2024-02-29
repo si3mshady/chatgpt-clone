@@ -1,26 +1,41 @@
-d.env.REACT_APP_REALM,
-// //   clientId: process.env.REACT_APP_CLIENT_ID
-// };
+import './App.css';
+import Keycloack from 'keycloak-js'
+import { useState, useRef, useEffect } from 'react';
 
-// let kc = new Keycloack(initOptions)
 
-// kc.init({
-//   onLoad: "login-required",
-//   checkLoginIframe: false,
-//   pkceMethod: 'S256'
 
-// }). then ((auth) => {  
+const SERVER = process.env.REACT_APP_SERVER
+const PORT = process.env.REACT_APP_PORT
 
-//   if (!auth) {
-//     window.location.reload()
 
-//   } else {
-//     console.log('Authenticated')
-//     console.log('Auth', auth)
-//     console.log('Keycloak', kc)
-//     console.log("AccessToken", kc.token)
-//   }
-// })
+
+let initOptions = {
+  
+
+url: process.env.REACT_APP_API_URL,
+realm: process.env.REACT_APP_REALM,
+  clientId: process.env.REACT_APP_CLIENT_ID
+};
+
+let kc = new Keycloack(initOptions)
+
+kc.init({
+  onLoad: "login-required",
+  checkLoginIframe: false,
+  pkceMethod: 'S256'
+
+}). then ((auth) => {  
+
+  if (!auth) {
+    window.location.reload()
+
+  } else {
+    console.log('Authenticated')
+    console.log('Auth', auth)
+    console.log('Keycloak', kc)
+    console.log("AccessToken", kc.token)
+  }
+})
 
 
 function App() {
