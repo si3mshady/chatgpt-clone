@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: pgvector
-          image: si3mshady/database_connect:1
+          image: si3mshady/database_connect:2
           ports:
             - containerPort: 5000
           env:
@@ -23,11 +23,11 @@ spec:
             - name: DATABASE_PASSWORD
               value: letsgetiton
             - name: DB_CONTAINER_NAME
-              value: "34.145.25.147"
+              value: "34.82.177.54"
             - name: DB_TABLE_NAME
               value: rag-table
             - name: OPENAI_API_KEY
-              value: sk-
+              value: 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
 
 ---
 apiVersion: v1
@@ -43,3 +43,8 @@ spec:
       targetPort: 5000
       # nodePort: 30000   # Define a specific NodePort (e.g., 30000)
   type: LoadBalancer        # Change the Service type to NodePort
+
+
+  # gptclone-service.default.svc.cluster.local
+
+  # gke-app-factory-default-pool-75cf5dd3-qn5s/10.138.0.12

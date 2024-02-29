@@ -1,0 +1,35 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/backends: '{"k8s1-3d1026de-default-gptclone-deployment-3000-13c80975":"HEALTHY","k8s1-3d1026de-kube-system-default-http-backend-80-b9e9aff7":"HEALTHY"}'
+    ingress.kubernetes.io/forwarding-rule: k8s2-fr-1y2mly9c-default-gpt-clone-ingress-linkedin-yo-thfvs4p8
+    ingress.kubernetes.io/target-proxy: k8s2-tp-1y2mly9c-default-gpt-clone-ingress-linkedin-yo-thfvs4p8
+    ingress.kubernetes.io/url-map: k8s2-um-1y2mly9c-default-gpt-clone-ingress-linkedin-yo-thfvs4p8
+  creationTimestamp: "2024-02-27T22:56:29Z"
+  finalizers:
+  - networking.gke.io/ingress-finalizer-V2
+  generation: 1
+  name: gpt-clone-ingress-linkedin-youtube
+  namespace: default
+  resourceVersion: "211459"
+  uid: 651d3ddf-0c39-4c0e-8cf8-34adfdd85d4f
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: gptclone-deployment
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 34.110.195.205

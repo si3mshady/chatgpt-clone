@@ -84,7 +84,13 @@ def get_oai_response(message):
             )
 
     return jsonify({"message": res.choices[0].message.content})
-    
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    # Add any health check logic here
+    # For example, check database connection, external services, etc.
+    # Return a success message if everything is healthy
+    return jsonify({"status": "ok"})    
 
 
 

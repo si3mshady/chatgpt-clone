@@ -25,7 +25,7 @@ spec:
             - name: REACT_APP_REALM
               value: "RAG"
             - name: REACT_APP_SERVER
-              value: "34.168.177.59" 
+              value: "value: "pgvector-service.default.svc.cluster.local" 
             - name: REACT_APP_PORT   # Corrected the environment variable definition
               value: "5000"
 ---
@@ -41,3 +41,12 @@ spec:
       port: 80   # Exposed port on the Service should match the external port (e.g., 80 for HTTP)
       targetPort: 3000
   type: LoadBalancer
+
+
+
+ helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx
+ # kubectl create deployment gptclone-deployment --image=si3mshady/basic_rag:2 --port=3000 --replicas=1 
+ kubectl create deploy gptclone-deployment --port=3000 --replicas=1 --image=si3mshady/basic_rag:2  &&  kubectl set env deployment/gptclone-deployment REACT_APP_SERVER=34.168.124.210 REACT_APP_PORT=5000
+ kubectl expose deployment/gptclone-deployment
+ # kubectl create ingress example-ingress --rule="/"=your-service-name:80
+d

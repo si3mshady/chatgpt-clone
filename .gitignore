@@ -3,6 +3,9 @@ venv
 Dockerfile.python
 server/node_modules
 src/*json
+terraform/serviceaccount.json
+terraform/tfstate*
+
 terraform /*.terraform*
 terraform /*.json*
 
