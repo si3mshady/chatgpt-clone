@@ -21,6 +21,7 @@ let kc = new Keycloack(initOptions)
 
 kc.init({
   onLoad: "login-required",
+  promiseType: 'native',
   checkLoginIframe: false,
   pkceMethod: 'S256'
 

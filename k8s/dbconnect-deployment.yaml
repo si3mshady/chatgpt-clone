@@ -27,7 +27,7 @@ spec:
             - name: DB_TABLE_NAME
               value: rag-table
             - name: OPENAI_API_KEY
-              value: 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
+              value: sk-
 
 ---
 apiVersion: v1

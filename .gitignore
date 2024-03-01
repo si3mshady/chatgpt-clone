@@ -9,6 +9,6 @@ terraform/tfstate*
 terraform /*.terraform*
 terraform /*.json*
 
-
+terraform/
 
 terraform /serviceaccount.json
