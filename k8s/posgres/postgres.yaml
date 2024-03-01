@@ -7,9 +7,9 @@ metadata:
   labels:
     app: postgres
 data:
-  POSTGRES_DB: ps_db
-  POSTGRES_USER: ps_user
-  POSTGRES_PASSWORD: SecurePassword
+  POSTGRES_DB: rag
+  POSTGRES_USER: posgres
+  POSTGRES_PASSWORD: letsgetiton
 ---
 
 apiVersion: v1
@@ -60,7 +60,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: 'postgres:14'
+          image: 'pgvector/pgvector:pg16'
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
