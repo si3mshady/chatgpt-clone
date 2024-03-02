@@ -38,9 +38,10 @@
 
 .chatbox {
   flex: 1;
-  /* border: 1px solid white; */
   background-color: #343541;
-  position: relative;
+  /* position: relative; */
+  height: 100vmin;
+  display: flex;
 }
 
 .chat-input-textarea {
@@ -51,37 +52,41 @@
   margin: 12px;
   outline: none;
   padding: 12px;
-
-  
   color: white;
   background-color: #343541;
   box-shadow: 0 0 8px 0 rgba(0,0,0,0.5);
   font-size: 1.25em;
-
 }
 
-.chat-input {
+.chat-input  {
   padding: 12px;
-  /* position: absolute; */
   position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
+  width: 40%;
+  bottom: 0%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  margin-bottom: 60px;
+  height: 100px;
 
 }
+
 
 .chat-log {
   color: white;
   padding: 24px;
   text-align: left;
-  /* display: flex; */
+  /* This is the magic */
+  width: 60%;
+  overflow-y: scroll; 
 
+  margin-bottom: 100px;
 }
 
 .chat-message {
-
+  flex: content;
   padding-bottom: 20px;
+  width: 60%;
+  transform: translate(50%, 50%);
 }
 
 .mylogo {

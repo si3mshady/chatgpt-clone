@@ -3,7 +3,7 @@ const {OpenAI} = require("openai")
 
 
 const app = express()
-port = 888
+const port = 888
 
 const bodyParser = require('body-parser')
 const cors = require('cors')
