@@ -1,0 +1,34 @@
+name: Install gcloud and get cluster credentials
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' # Replace with the name of your GitHub Actions secret
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        version: '>= 363.0.0'
+
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+      
+    - name: Get cluster credentials
+      run: gcloud container clusters get-credentials saas-factory --region=us-west1 && gcloud components install gke-gcloud-auth-plugin
+
+
+    - name: "Run Kubectl"
+      run: kubectl run actionworks --image=nginx
+
+
+

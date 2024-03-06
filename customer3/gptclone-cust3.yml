@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: customer3   # Namespace named "customer3"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cust3-deployment
+  namespace: customer3   # Applying namespace "customer3"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cust3-deployment
+  template:
+    metadata:
+      labels:
+        app: cust3-deployment
+    spec:
+      containers:
+        - name: gptclone
+          image: si3mshady/basic_rag:4
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_API_URL
+              value: "http://35.227.176.58:8080"
+            - name: REACT_APP_CLIENT_ID
+              value: "rag-client"
+            - name: REACT_APP_REALM
+              value: "rag"
+            - name: REACT_APP_SERVER
+              value: "34.120.236.247" 
+            - name: REACT_APP_PORT   # Corrected the environment variable definition
+              value: "5000"

@@ -1,0 +1,26 @@
+<div>Identity Platform Quickstart</div>
+<div id="message">Loading...</div>
+<script src="https://www.gstatic.com/firebasejs/8.0/firebase.js"></script>
+<script>
+  var config = {
+    apiKey: "AIzaSyCeaQ9fFL2H8KpeZZlq4Vk9r7qt_2OQkUQ",
+    authDomain: "multi-tenant-414510.firebaseapp.com",
+  };
+  firebase.initializeApp(config);
+
+  var email = "el.cloud.science.lab@gmail.com";
+    var password = "Sober289!";
+  
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        document.getElementById("message").innerHTML = "Welcome, " + user.email;
+     } else {
+        document.getElementById("message").innerHTML = "No user signed in.";
+      }
+    });
+  
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      document.getElementById("message").innerHTML = error.message;
+    });
+    
+</script>

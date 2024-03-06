@@ -1,0 +1,83 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+  name: customer1
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "false"
+spec:
+  controller: k8s.io/ingress-nginx
+---
+
+piVersion: v1
+kind: Service
+metadata:
+  name: cust1-deployment
+  namespace: customer1
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: cust1-deployment
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cust1-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cust1-deployment
+  template:
+    metadata:
+      labels:
+        app: cust1-deployment
+    spec:
+      containers:
+        - name: gptclone
+          image: si3mshady/basic_rag:3
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_API_URL
+              value: "http://34.168.31.169:8080/"
+            - name: REACT_APP_CLIENT_ID
+              value: "rag-client"
+            - name: REACT_APP_REALM
+              value: "rag"
+            - name: REACT_APP_SERVER
+              value: "34.168.124.210" 
+            - name: REACT_APP_PORT   # Corrected the environment variable definition
+              value: "5000"
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: gptclone-service
+# spec:
+#   selector:
+#     io.kompose.service: gptclone
+#   ports:
+#     - protocol: TCP
+#       port: 80   # Exposed port on the Service should match the external port (e.g., 80 for HTTP)
+#       targetPort: 3000
+#   type: LoadBalancer
+
+# kubectl create deployment cust1-deployment --image=si3mshady/basic_rag:3 --port=3000 --replicas=1 
+
+
+#  helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx
+ # kubectl create deployment cust1-deployment --image=si3mshady/basic_rag:2 --port=3000 --replicas=1 
+#  kubectl create deploy cust1-deployment --port=3000 --replicas=1 --image=si3mshady/basic_rag:2  &&  kubectl set env deployment/cust1-deployment REACT_APP_SERVER=34.168.124.210 REACT_APP_PORT=5000
+#  kubectl expose deployment/cust1-deployment
+ # kubectl create ingress example-ingress --rule="/"=your-service-name:80
+
+
+kubectl create ingress customer1-ingress  --rule="/=cust3-deployment:3000" -n customer3 --annotation controller.ingressClassName=customer1

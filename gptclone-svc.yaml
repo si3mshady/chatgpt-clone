@@ -1,0 +1,132 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      cloud.google.com/neg: '{"ingress":true}'
+      cloud.google.com/neg-status: '{"network_endpoint_groups":{"3000":"k8s1-b0dc29bc-default-gptclone-deployment-3000-6ff616c2"},"zones":["us-west1-a","us-west1-b","us-west1-c"]}'
+    creationTimestamp: "2024-03-06T21:06:13Z"
+    name: gptclone-deployment
+    namespace: default
+    resourceVersion: "818116"
+    uid: ef2a5180-2afd-4088-a3e1-e9b8f8f7a518
+  spec:
+    clusterIP: 10.112.11.41
+    clusterIPs:
+    - 10.112.11.41
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      app: gptclone-deployment
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      cloud.google.com/neg: '{"ingress":true}'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"keycloak"},"name":"keycloak-svc","namespace":"default"},"spec":{"ports":[{"name":"http","port":8080,"targetPort":8080}],"selector":{"app":"keycloak"},"type":"LoadBalancer"}}
+    creationTimestamp: "2024-03-05T20:55:59Z"
+    finalizers:
+    - service.kubernetes.io/load-balancer-cleanup
+    labels:
+      app: keycloak
+    name: keycloak-svc
+    namespace: default
+    resourceVersion: "8501"
+    uid: 2ca58b44-0555-4502-a7b3-50dc043148f4
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.112.1.74
+    clusterIPs:
+    - 10.112.1.74
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      nodePort: 30998
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: keycloak
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 35.227.176.58
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2024-03-05T20:43:24Z"
+    labels:
+      component: apiserver
+      provider: kubernetes
+    name: kubernetes
+    namespace: default
+    resourceVersion: "193"
+    uid: 20ec436f-afbc-4274-84ac-4d2b840bc6c5
+  spec:
+    clusterIP: 10.112.0.1
+    clusterIPs:
+    - 10.112.0.1
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      cloud.google.com/neg: '{"ingress":true}'
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"postgres-svc","namespace":"default"},"spec":{"ports":[{"port":5432,"protocol":"TCP","targetPort":5432}],"selector":{"app":"postgres"}}}
+    creationTimestamp: "2024-03-05T20:55:59Z"
+    name: postgres-svc
+    namespace: default
+    resourceVersion: "7844"
+    uid: feba44f2-fb69-4b6d-96ca-c57ae86bddac
+  spec:
+    clusterIP: 10.112.4.230
+    clusterIPs:
+    - 10.112.4.230
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      app: postgres
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""

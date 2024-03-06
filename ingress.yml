@@ -1,0 +1,37 @@
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      ingress.kubernetes.io/backends: '{"k8s1-b0dc29bc-default-gptclone-deployment-3000-6ff616c2":"HEALTHY","k8s1-b0dc29bc-kube-system-default-http-backend-80-94b45084":"HEALTHY"}'
+      ingress.kubernetes.io/forwarding-rule: k8s2-fr-gjedylri-default-saas-ingress-5ega4ein
+      ingress.kubernetes.io/target-proxy: k8s2-tp-gjedylri-default-saas-ingress-5ega4ein
+      # ingress.kubernetes.io/url-map: k8s2-um-gjedylri-default-saas-ingress-5ega4ein
+      kubernetes.io/ingress.class: saas-ingress-customer2
+    creationTimestamp: "2024-03-05T21:07:47Z"
+    finalizers:
+    - networking.gke.io/ingress-finalizer-V2
+    generation: 2
+    name: saas-ingress-customer2
+    namespace: default
+    resourceVersion: "19064"
+    uid: 2d0b0415-addb-48cf-9cc4-a5713dffd0ed
+  spec:
+    rules:
+    - http:
+        paths:
+        - backend:
+            service:
+              name: gptclone-deployment
+              port:
+                number: 3000
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 34.120.236.247
+kind: List
+metadata:
+  resourceVersion: ""
