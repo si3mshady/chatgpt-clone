@@ -11,7 +11,7 @@ spec:
 
 ---
 
-piVersion: v1
+apiVersion: v1
 kind: Service
 metadata:
   name: cust2-deployment
@@ -21,7 +21,7 @@ spec:
   - port: 3000
     targetPort: 3000
   selector:
-    app: gptclone-deployment
+    app: cust2-deployment
   type: ClusterIP
 
-# kubectl create ingress customer2-ingress  --rule="/=cust2-deployment:3000" -n customer3 --annotation controller.ingressClassName=customer2
+# kubectl create ingress customer2-ingress  --rule="/=cust2-deployment:3000" -n customer2 --annotation controller.ingressClassName=customer2

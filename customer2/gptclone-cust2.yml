@@ -13,10 +13,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cust2-deployment  template:
+      app: cust2-deployment  
+  template:   # Corrected indentation for template
     metadata:
       labels:
-        app: cust2-deployment    spec:
+        app: cust2-deployment    
+    spec:   # Corrected indentation for spec
       containers:
         - name: gptclone
           image: si3mshady/basic_rag:4
@@ -26,9 +28,9 @@ spec:
             - name: REACT_APP_API_URL
               value: "http://35.227.176.58:8080"
             - name: REACT_APP_CLIENT_ID
-              value: "rag-client"
+              value: "rag-client-2"
             - name: REACT_APP_REALM
-              value: "rag"
+              value: "rag-2"
             - name: REACT_APP_SERVER
               value: "34.120.236.247" 
             - name: REACT_APP_PORT   # Corrected the environment variable definition
