@@ -79,4 +79,4 @@ spec:
  # kubectl create ingress example-ingress --rule="/"=your-service-name:80
 
 
-kubectl create ingress customer1-ingress  --rule="/=cust1-deployment:3000" -n customer1 --annotation controller.ingressClassName=customer1
+# kubectl create ingress customer1-ingress  --rule="/=cust1-deployment:3000" -n customer1 --annotation controller.ingressClassName=customer1
