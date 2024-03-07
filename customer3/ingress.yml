@@ -24,3 +24,6 @@ spec:
     app: cust3-deployment
   type: ClusterIP
 
+helm install cust2-ingress -n cust3 ingress-nginx/ingress-nginx --set controller."kubernetes.io/ingress.class"=customer3
+#  593  helm install my-ingress-nginx -n customer2 ingress-nginx/ingress-nginx --set controller."kubernetes.io/ingress.class"=customer3
+# kubectl create ingress customer3-ingress  --rule="/=cust3-deployment:3000" -n customer3 --annotation controller.ingressClassName=customer3
