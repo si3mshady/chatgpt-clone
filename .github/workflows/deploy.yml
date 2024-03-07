@@ -28,7 +28,7 @@ jobs:
 
 
     - name: "Run Kubectl"
-      run: kubectl apply -f ./customer1 && kubectl apply -f ./customer2 
+      run: kubectl apply -f ./customer1 && kubectl apply -f ./customer2  
 
 
 
